@@ -1,4 +1,4 @@
-package in.techbyvishesh.app_utils
+package `in`.techbyvishesh.app_utils
 
 import androidx.annotation.NonNull
 
@@ -10,10 +10,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 
 /** AppUtilsPlugin */
 class AppUtilsPlugin: FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
+
   private lateinit var channel : MethodChannel
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -22,10 +19,19 @@ class AppUtilsPlugin: FlutterPlugin, MethodCallHandler {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else {
-      result.notImplemented()
+    when(call.method){
+
+      LAUNCH_APP ->{
+        context.launchApp(call.arguments as Map<String,Any>,result)
+      }
+
+      GET_INSTALLED_APPS ->{
+        context.getInstalledApplications(result)
+      }
+      CAN_LAUNCH_APP -> {
+        context.checkCanLaunchApp(call.arguments as Map<String,Any>,result)
+      }
+      else -> result.notImplemented()
     }
   }
 

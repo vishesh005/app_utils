@@ -9,6 +9,24 @@ public class SwiftAppUtilsPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    result("iOS " + UIDevice.current.systemVersion)
+    switch call.method {
+            case LAUNCH_APP:
+                checkCanLaunch(
+                    args: call.arguments,
+                    flutterResult: result
+                )
+                break
+            case GET_INSTALLED_APPS:
+                result(FlutterMethodNotImplemented)
+                break
+            case CAN_LAUNCH_APP:
+                launchApp(
+                    arguments: call.arguments,
+                    flutterResult: result
+                )
+                break
+            default:
+                result(FlutterMethodNotImplemented)
+            }
   }
 }
