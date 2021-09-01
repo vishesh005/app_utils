@@ -12,8 +12,8 @@ public class SwiftAppUtilsPlugin: NSObject, FlutterPlugin {
     switch call.method {
             case LAUNCH_APP:
                 checkCanLaunch(
-                    args: call.arguments,
-                    flutterResult: result
+                    arguments: call.arguments,
+                    result: result
                 )
                 break
             case GET_INSTALLED_APPS:
@@ -22,7 +22,7 @@ public class SwiftAppUtilsPlugin: NSObject, FlutterPlugin {
             case CAN_LAUNCH_APP:
                 launchApp(
                     arguments: call.arguments,
-                    flutterResult: result
+                    result: result
                 )
                 break
             default:

@@ -1,5 +1,9 @@
 package `in`.techbyvishesh.app_utils
 
+import CAN_LAUNCH_APP
+import GET_INSTALLED_APPS
+import LAUNCH_APP
+import android.content.Context
 import androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -12,10 +16,12 @@ import io.flutter.plugin.common.MethodChannel.Result
 class AppUtilsPlugin: FlutterPlugin, MethodCallHandler {
 
   private lateinit var channel : MethodChannel
+  private lateinit var context: Context
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "app_utils")
     channel.setMethodCallHandler(this)
+    context = flutterPluginBinding.applicationContext
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {

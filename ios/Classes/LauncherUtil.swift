@@ -1,18 +1,18 @@
-//
-//  LauncherUtil.swift
-//  app_launcher_pro
-//
-//  Created by Vishesh on 17/08/21.
-//
-
 import Foundation
 
 
-extension SwiftAppLauncherProPlugin {
+extension SwiftAppUtilsPlugin {
     
     
-    func checkCanLaunch(args arguments: Any?,
-                        flutterResult result : FlutterResult){
+    func checkCanLaunch(arguments: Any?, result : FlutterResult){
+        let args = arguments as! Dictionary<String,Any>
+        let urlScheme = args[APP_IDENTIFIER] as! String
+        let url = URL(string: urlScheme)
+        let canLaunch = UIApplication.shared.canOpenURL(url!)
+        result(canLaunch)
+    }
+    
+    func launchApp(arguments: Any?,result : FlutterResult){
         let args = arguments as! Dictionary<String,Any>
         let urlScheme = args[APP_IDENTIFIER] as! String?
         let storeUrl = args[STORE_URL] as! String?
@@ -39,10 +39,6 @@ extension SwiftAppLauncherProPlugin {
                 }
             }
         }
-    }
-    
-    func launchApp(arguments args: Any?,flutterResult result : FlutterResult){
-        
     }
     
     

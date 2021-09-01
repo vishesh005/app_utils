@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Supports third party app launch, query installed application(android) and check can launch app.
