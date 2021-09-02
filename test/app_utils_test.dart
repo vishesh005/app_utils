@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-   // expect(await AppUtils.platformVersion, '42');
+    // expect(await AppUtils.platformVersion, '42');
   });
 }
