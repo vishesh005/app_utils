@@ -28,7 +28,7 @@ In your deployment target is greater than or equal to 9 then also need to update
     </array>
 
 <br>
-<img src="https://i.ibb.co/1dm0rVk/app-utils.gif" height="500" width="300">
+<img src="https://i.imgur.com/nUZoOdP.gif" height="500" width="300">
 
 
 ## List of supported functions
