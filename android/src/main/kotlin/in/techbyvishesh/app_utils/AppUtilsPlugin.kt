@@ -1,8 +1,6 @@
 package `in`.techbyvishesh.app_utils
 
-import CAN_LAUNCH_APP
-import GET_INSTALLED_APPS
-import LAUNCH_APP
+
 import android.content.Context
 import androidx.annotation.NonNull
 
@@ -27,16 +25,24 @@ class AppUtilsPlugin: FlutterPlugin, MethodCallHandler {
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     when(call.method){
 
-      LAUNCH_APP ->{
+      Methods.LAUNCH_APP ->{
         context.launchApp(call.arguments as Map<String,Any>,result)
       }
 
-      GET_INSTALLED_APPS ->{
+      Methods.GET_INSTALLED_APPS ->{
         context.getInstalledApplications(result)
       }
-      CAN_LAUNCH_APP -> {
+      Methods.CAN_LAUNCH_APP -> {
         context.checkCanLaunchApp(call.arguments as Map<String,Any>,result)
       }
+      Methods.GET_DEVICE_INFO-> {
+        context.getDeviceInfo(result)
+      }
+
+      Methods.GET_APP_INFO -> {
+        context.getAppInfo(result)
+      }
+
       else -> result.notImplemented()
     }
   }

@@ -1,4 +1,4 @@
-package in.techbyvishesh.app_utils_example
+package `in`.techbyvishesh.app_utils_example
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,7 +1,5 @@
+import 'package:app_utils/models.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:app_utils/app_utils.dart';
 
 void main() {
@@ -14,47 +12,70 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
   @override
   void initState() {
     super.initState();
-    // initPlatformState();
   }
-
-  // // Platform messages are asynchronous, so we initialize in an async method.
-  // Future<void> initPlatformState() async {
-  //   String platformVersion;
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   // We also handle the message potentially returning null.
-  //   // try {
-  //   //   platformVersion =
-  //   //       await AppUtils.platformVersion ?? 'Unknown platform version';
-  //   // } on PlatformException {
-  //   //   platformVersion = 'Failed to get platform version.';
-  //   // }
-  //
-  //   // If the widget was removed from the tree while the asynchronous platform
-  //   // message was in flight, we want to discard the reply rather than calling
-  //   // setState to update our non-existent appearance.
-  //   if (!mounted) return;
-  //
-  //   setState(() {
-  //     _platformVersion = platformVersion;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
-      ),
+          appBar: AppBar(
+            title: const Text('App Util Example'),
+          ),
+          body: Center(
+            child: FutureBuilder<List<BundleInfo>>(
+              future: AppUtils.getInstalledApps(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<BundleInfo>> snapShot) {
+                if (snapShot.data != null) {
+                  return ListView.builder(
+                      itemCount: snapShot.data?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        final appDetail = snapShot.data![index];
+                        return Card(
+                          elevation: 2,
+                          child: ListTile(
+                            title: Text(appDetail.appIdentifier),
+                            subtitle: Text(appDetail.category?.toString() ?? "Not Available"),
+                            trailing: Text("${appDetail.targetVersion}"),
+                          ),
+                        );
+                      });
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
+          ),
+          floatingActionButton:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            ElevatedButton(
+                onPressed: () {
+                  AppUtils.launchApp(
+                      androidPackage: "com.google.android.apps.photos",
+                      iosUrlScheme: "whatsapp://",
+                      playStoreUrl:
+                          "https://play.google.com/store/apps/details?id=com.google.android.apps.photos",
+                      appStoreUrl:
+                          "https://apps.apple.com/in/app/whatsapp-messenger/id310633997",
+                      launchStore: true);
+                },
+                child: Text("Launch App")),
+            Builder(builder: (BuildContext builderContext) {
+              return ElevatedButton(
+                  onPressed: () async {
+                    final canLaunch = await AppUtils.canLaunchApp(
+                        androidPackageName: "com.whatsapp",
+                        iOSUrlScheme: "whatsapp://");
+                    ScaffoldMessenger.of(builderContext).showSnackBar(SnackBar(
+                      content: Text("Can launch application : $canLaunch"),
+                    ));
+                  },
+                  child: Text("Can Launch App"));
+            }),
+          ])),
     );
   }
 }
