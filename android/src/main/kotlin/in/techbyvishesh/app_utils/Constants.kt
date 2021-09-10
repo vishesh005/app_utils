@@ -5,18 +5,23 @@ object Methods {
     const val CAN_LAUNCH_APP = "can_launch_app"
     const val GET_DEVICE_INFO = "get_device_info"
     const val GET_APP_INFO = "get_app_info"
+    const val READ_LAUNCHED_DATA = "read_launched_data"
 }
+
 
 object Keys {
     const val APP_IDENTIFIER = "appIdentifier"
+    const val APP_NAME = "appName"
+    const val VERSION = "version"
+    const val BUILD_NO = "buildNo"
     const val STORE_URL = "storeUrl"
     const val LAUNCH_STORE = "launchStore"
     const val DATA = "data"
-    const val TARGET_VERSION = "targetVersion"
     const val APP_CATEGORY = "appCategory"
     const val DEVICE_NAME = "deviceName"
     const val DEVICE_BRAND = "deviceBrand"
     const val DEVICE_ID = "deviceId"
+    const val OS_VERSION = "osVersion"
 }
 
 object Errors {

@@ -1,4 +1,5 @@
 import 'package:app_utils/models.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_utils/app_utils.dart';
 
@@ -37,9 +38,8 @@ class _MyAppState extends State<MyApp> {
                         return Card(
                           elevation: 2,
                           child: ListTile(
-                            title: Text(appDetail.appIdentifier),
-                            subtitle: Text(appDetail.category?.toString() ?? "Not Available"),
-                            trailing: Text("${appDetail.targetVersion}"),
+                            title: Text(appDetail.appName),
+                            subtitle: Text("${appDetail.appIdentifier}"),
                           ),
                         );
                       });
@@ -75,6 +75,32 @@ class _MyAppState extends State<MyApp> {
                   },
                   child: Text("Can Launch App"));
             }),
+                Builder(
+                  builder:(builderContext)=> ElevatedButton(
+                      onPressed: () async {
+                         final deviceInfo = await AppUtils.getCurrentDeviceInfo();
+                         final appInfo = await AppUtils.getCurrentAppInfo();
+                         final launchData = await AppUtils.readLaunchedData();
+                         showCupertinoModalPopup(
+                           context: builderContext, builder: (context){
+                           return Material(
+                             child: Container(
+                               height: 100,
+                               width: 500,
+                               child: Column(
+                                 children: [
+                                   Text("Name : ${deviceInfo.name}", style: TextStyle(fontWeight: FontWeight.w600),),
+                                   Text("Id : ${deviceInfo.id}", style: TextStyle(fontWeight: FontWeight.w600)),
+                                   Text("Brand : ${deviceInfo.brand}", style: TextStyle(fontWeight: FontWeight.w600)),
+                                   Text("Os Version : ${deviceInfo.osVersion}", style: TextStyle(fontWeight: FontWeight.w600))
+                                 ],
+                               ),
+                             ),
+                           );
+                         });
+                      },
+                      child: Text("Device Info")),
+                )
           ])),
     );
   }

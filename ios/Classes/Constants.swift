@@ -14,14 +14,18 @@ let GET_APP_INFO = "get_app_info"
 
 //---------------------Keys--------------------------------//
 let APP_IDENTIFIER = "appIdentifier"
+let APP_NAME = "appName"
+let VERSION = "version"
+let BUILD_NO = "buildNo"
 let STORE_URL = "storeUrl"
 let LAUNCH_STORE = "launchStore"
 let DATA = "data"
-let TARGET_VERSION = "targetVersion"
 let APP_CATEGORY = "appCategory"
 let DEVICE_NAME = "deviceName"
 let DEVICE_BRAND = "deviceBrand"
 let DEVICE_ID = "deviceId"
+let OS_VERSION = "osVersion"
+let READ_LAUNCHED_DATA = "read_launched_data"
 
 //---------------------Errors--------------------------------//
 

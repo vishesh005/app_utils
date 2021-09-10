@@ -15,10 +15,20 @@ extension SwiftAppUtilsPlugin {
     
     func launchApp(arguments: Any?,result : FlutterResult){
         let args = arguments as! Dictionary<String,Any>
-        let urlScheme = args[APP_IDENTIFIER] as! String? ?? ""
+        var urlScheme = args[APP_IDENTIFIER] as! String? ?? ""
         let storeUrl = args[STORE_URL] as! String? ?? ""
         let isLaunchStore = args[LAUNCH_STORE] as! Bool?
-        let data = args[DATA] as! Dictionary<String,Any>?
+        let data = args[DATA] as! Dictionary<String,Any>? ?? [:]
+        var builder = ""
+         for value in data {
+           builder.append("\(value.key)=\(value.value)&&")
+          }
+          if(builder.contains("&&")){
+              builder = String(builder.dropLast(2))
+          }
+        if(!builder.isEmpty){
+            urlScheme = "\(urlScheme)?\(builder)"
+        }
         if let url = URL(string: urlScheme){
             if(UIApplication.shared.canOpenURL(url)){
                 UIApplication.shared.openURL(url)
@@ -47,15 +57,27 @@ extension SwiftAppUtilsPlugin {
        let dictionary = [
         DEVICE_NAME : UIDevice.current.name,
         DEVICE_BRAND : "Apple",
-        DEVICE_ID : UIDevice.current.identifierForVendor?.uuidString
+        DEVICE_ID : UIDevice.current.identifierForVendor?.uuidString,
+        OS_VERSION :UIDevice.current.systemVersion
        ]
        result(dictionary)
     }
 
     func getAppInfo(result: FlutterResult) {
-       let dictionary = [
-        APP_IDENTIFIER : Bundle.main.bundleIdentifier
-       ]
+        let dictionary : Dictionary<String,Any?> = [
+            APP_IDENTIFIER : Bundle.main.bundleIdentifier,
+            APP_NAME : Bundle.main.infoDictionary?["CFBundleDisplayName"] ?? "",
+            VERSION : Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? "",
+            BUILD_NO : Bundle.main.infoDictionary?["CFBundleVersion"]
+        ]
+        result(dictionary)
+    }
+    
+    func  readlaunchedData(result: FlutterResult, params: [URLQueryItem]){
+        var dictionary : Dictionary<String,Any> = [:]
+        for item in params {
+            dictionary[item.name] = item.value
+        }
         result(dictionary)
     }
     

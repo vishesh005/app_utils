@@ -1,8 +1,11 @@
 package `in`.techbyvishesh.app_utils
 
 
+import Errors
+import Keys
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
@@ -10,7 +13,6 @@ import android.os.Build
 import android.os.Bundle
 import io.flutter.plugin.common.MethodChannel.Result
 import java.util.*
-import kotlin.collections.HashMap
 
 
 fun Context.launchApp(args: Map<String, Any>, result: Result){
@@ -18,11 +20,11 @@ fun Context.launchApp(args: Map<String, Any>, result: Result){
     val packageName = args[Keys.APP_IDENTIFIER] as String?
     val storeUrl = args[Keys.STORE_URL] as String?
     val isLaunchStore = args[Keys.LAUNCH_STORE] as Boolean?
-    val data = args[Keys.DATA] as HashMap<String, *>?
+    val data = args[Keys.DATA] as HashMap<String, *>? ?: mutableMapOf<String, Any>()
     val launchIntent = packageManager?.getLaunchIntentForPackage(packageName.toString())
     if(launchIntent != null){
          val bundle = Bundle()
-         bundle.putSerializable("bundle",data)
+         data.forEach { entry -> insertEntryInBundle(entry,bundle)}
         launchIntent.putExtras(bundle)
         startActivity(launchIntent)
         result.success(true)
@@ -44,13 +46,14 @@ fun Context.launchApp(args: Map<String, Any>, result: Result){
 
 fun Context.getInstalledApplications(result: Result){
     try {
-        val packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-        val apps = packages.map { HashMap<String,Any>().apply {
-            put(Keys.APP_IDENTIFIER, it.packageName)
-            put(Keys.TARGET_VERSION, it.targetSdkVersion)
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-                put(Keys.APP_CATEGORY, it.category)
-            }
+        val packages = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+        val apps = packages.map { bundleInfo-> HashMap<String,Any>().apply {
+            put(Keys.APP_IDENTIFIER,bundleInfo.packageName)
+            put(Keys.APP_NAME, bundleInfo.applicationInfo.loadLabel(packageManager).toString())
+            put(Keys.VERSION, bundleInfo.versionName)
+            put(Keys.BUILD_NO,
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) bundleInfo.longVersionCode
+                else bundleInfo.versionCode)
         } }.toList()
         result.success(apps)
     } catch (e: Exception){
@@ -86,20 +89,71 @@ fun Context.getDeviceInfo(result: Result){
         put(Keys.DEVICE_NAME, Build.MODEL)
         put(Keys.DEVICE_BRAND, Build.BRAND)
         put(Keys.DEVICE_ID, Build.ID)
+        put(Keys.OS_VERSION,Build.VERSION.SDK_INT.toString())
     })
 }
 
 fun Context.getAppInfo(result: Result) {
-    val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+    val bundleInfo: PackageInfo = packageManager.getPackageInfo(applicationContext.packageName, 0)
     try {
         result.success(mutableMapOf<String, Any>().apply {
-            put(Keys.APP_IDENTIFIER, appInfo.packageName)
-            put(Keys.TARGET_VERSION, appInfo.targetSdkVersion)
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-                put(Keys.APP_CATEGORY, appInfo.category)
-            }
+            put(Keys.APP_IDENTIFIER, bundleInfo.packageName)
+            put(Keys.APP_NAME, bundleInfo.applicationInfo.loadLabel(packageManager).toString())
+            put(Keys.VERSION, bundleInfo.versionName)
+            put(Keys.BUILD_NO,
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) bundleInfo.longVersionCode
+                else bundleInfo.versionCode)
         })
     }catch (e: Exception){
         result.error(Errors.ERROR_NOT_FOUND, "unable to fetch app details",null)
+    }
+}
+
+fun Context.readLaunchedData(result: Result,intent: Intent){
+    try {
+        val bundle = intent.extras ?: Bundle()
+        val map = mutableMapOf<String, Any?>()
+        val values = bundle.keySet().mapNotNull {
+            val value = bundle.get(it)
+            if (isSupportedValue(value)) it to value
+            else null
+        }
+        map.putAll(values)
+        result.success(map)
+    }
+    catch(e: Exception){
+        result.error(Errors.DEFAULT_ERROR,"Unable to read luanch data from app", null)
+    }
+}
+
+private fun isSupportedValue(value: Any?): Boolean {
+    return value is Int ||
+            value is Double ||
+            value is Float ||
+            value is Long ||
+            value is String ||
+            value is Boolean
+}
+
+fun insertEntryInBundle(entry: Map.Entry<String, out Any>, bundle: Bundle) {
+    when (val value = entry.value) {
+        is Int -> {
+            bundle.putInt(entry.key, value)
+        }
+        is Double -> {
+            bundle.putDouble(entry.key, value)
+        }
+        is Float -> {
+            bundle.putFloat(entry.key, value)
+        }
+        is Long -> {
+            bundle.putLong(entry.key, value)
+        }
+        is Boolean -> {
+            bundle.putBoolean(entry.key, value)
+        }
+        is String -> {
+            bundle.putString(entry.key, value)
+        }
     }
 }

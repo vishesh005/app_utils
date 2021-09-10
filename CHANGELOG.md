@@ -5,3 +5,15 @@
 ## 0.0.2
 
 * Updated documentation
+
+## 0.0.3
+
+* Added support to get device details, app details 
+  and to read launch data (to read data from
+  intent(android) & urlScheme(iOS)).
+
+* Added params support for launchApp function.
+
+* Improved documentation & updated README file.
+
+* Fixed bugs.

@@ -1,16 +1,19 @@
 ///class that holds queried application bundle information
 class BundleInfo {
+  final String appName;
   final String appIdentifier;
-  final int targetVersion;
-  final int? category;
+  final String version;
+  final String buildNo;
 
-  BundleInfo(this.appIdentifier,this.targetVersion,{this.category});
+
+  BundleInfo(this.appName, this.appIdentifier, this.version, this.buildNo);
 
   static BundleInfo fromJson(dynamic json) {
     return BundleInfo(
+        json["appName"],
         json["appIdentifier"],
-        json["targetVersion"],
-        category: json["appCategory"]
+        json["version"],
+        json["buildNo"].toString()
     );
   }
 }
@@ -18,15 +21,17 @@ class BundleInfo {
 class DeviceInfo{
   String name;
   String brand;
+  String osVersion;
   String id;
 
-  DeviceInfo(this.name,this.brand,this.id);
+  DeviceInfo(this.name,this.brand,this.id,this.osVersion);
 
   static DeviceInfo fromJson(dynamic json){
      return DeviceInfo(
        json["deviceName"],
        json["deviceBrand"],
-       json["deviceId"]
+       json["deviceId"],
+       json["osVersion"]
      );
   }
 }

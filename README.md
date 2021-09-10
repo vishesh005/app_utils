@@ -28,7 +28,7 @@ In your deployment target is greater than or equal to 9 then also need to update
     </array>
 
 <br>
-<img src="https://i.imgur.com/nUZoOdP.gif" height="500" width="300">
+<img src="https://i.ibb.co/ZH3D7nP/ezgif-com-gif-maker.gif" height="500" width="300">
 
 
 ## List of supported functions
@@ -54,9 +54,7 @@ In your deployment target is greater than or equal to 9 then also need to update
 
 ## Upcoming features
 
-1. <b>openThread</b> : Allows you to work with system threads.
-2. <b>closeThread</b> : Allows you to close or dispose system threads.
-3. <b>sendDataToThread</b> :  Allows you to send data from one thread to another.
+1. <b>openDeviceSettings</b> : Open device settings application.
 
 
 ## Bugs or Requests

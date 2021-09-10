@@ -14,30 +14,33 @@ class AppUtils {
   static const String GET_APP_INFO = "get_app_info";
   static const String READ_LAUNCHED_DATA = "read_launched_data";
 
-  ///method that launches open another application by using platform specific api's
-  ///[androidPackage] android appId, to get appId from playstore check playstore query param <b>?id=com.xyz</b>
-  ///[iosUrlScheme] iOS url scheme, to get url scheme check appilication docs.for example for whatsapp url scheme is <b>whatsapp://</b>
-  /// [launchStore] passed true then, it will launch application store from provided link if not installed on device
-  /// [playStoreUrl] appstore url for andorid
-  /// [appStoreUrl] appstore url for iOS
+  ///method that launches open another application by using platform specific api's <br>
+  ///[androidPackage] android appId, to get appId from playstore check playstore query param <b>?id=com.xyz</b> <br>
+  ///[iosUrlScheme] iOS url scheme, to get url scheme check appilication docs.for example for whatsapp url scheme is <b>whatsapp://</b> <br>
+  /// [launchStore] passed true then, it will launch application store from provided link if not installed on device <br>
+  /// [playStoreUrl] appstore url for andorid <br>
+  /// [appStoreUrl] appstore url for iOS <br>
   static Future<void> launchApp(
       {String androidPackage = "",
       String iosUrlScheme = "",
       bool? launchStore = false,
       String playStoreUrl = "",
-      String appStoreUrl = ""}) async {
+      String appStoreUrl = "",
+      Map<String,dynamic> params = const {}
+      }) async {
     String identifier = Platform.isAndroid ? androidPackage : iosUrlScheme;
     String storeUrl = Platform.isAndroid ? playStoreUrl : appStoreUrl;
     await _channel.invokeMethod(LAUNCH_APP, {
       "appIdentifier": identifier,
       "storeUrl": storeUrl,
-      "launchStore": launchStore
+      "launchStore": launchStore,
+      "data": params
     });
   }
 
-  ///method that returns all device installed applications,
-  ///it List of [AppDetail] objects that contains all application information,
-  /// Note -: This method is supported only on Android platform
+  ///method that returns all device installed applications, <br>
+  ///it List of [AppDetail] objects that contains all application information, <br>
+  /// Note -: This method is supported only on Android platform <br>
   static Future<List<BundleInfo>> getInstalledApps() async {
     List<dynamic> listOfApps = await _channel.invokeMethod(GET_INSTALLED_APPS);
     return listOfApps
@@ -45,10 +48,10 @@ class AppUtils {
         .toList(growable: false);
   }
 
-  ///Method that checks is provided appication can launch or not
-  ///[androidPackageName] applicationId for android
-  ///[iOSUrlScheme] urlScheme for iOS
-  ///return [bool] boolean status
+  ///method that checks is provided appication is or not, <br>
+  ///[androidPackageName] applicationId for android, <br>
+  ///[iOSUrlScheme] urlScheme for iOS, <br>
+  ///return [bool] boolean status <br>
   static Future<bool?> canLaunchApp(
       {String androidPackageName = "", String iOSUrlScheme = ""}) async {
     final appIdentifier =
@@ -58,19 +61,25 @@ class AppUtils {
   }
 
 
+  /// returns current device details [DeviceInfo]
   static Future<DeviceInfo> getCurrentDeviceInfo() async {
     final deviceInfoJson =  await _channel.invokeMethod(GET_DEVICE_INFO);
     return DeviceInfo.fromJson(deviceInfoJson);
   }
 
+  /// returns current app details [BundleInfo]
   static Future<BundleInfo> getCurrentAppInfo() async {
      final bundleJson = await _channel.invokeMethod(GET_APP_INFO);
      return BundleInfo.fromJson(bundleJson);
   }
 
-
+  /// read sender application data
   static Future<Map<String,dynamic>> readLaunchedData() async {
-     return await _channel.invokeMethod(READ_LAUNCHED_DATA);
+    return (await _channel
+                .invokeMethod<Map<dynamic, dynamic>>(READ_LAUNCHED_DATA))
+            ?.map<String, dynamic>(
+                (key, value) => MapEntry(key.toString(), value)) ??
+        <String, dynamic>{};
   }
 
 
