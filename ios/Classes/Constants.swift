@@ -11,6 +11,7 @@ let GET_INSTALLED_APPS = "get_installed_apps"
 let CAN_LAUNCH_APP = "can_launch_app"
 let GET_DEVICE_INFO = "get_device_info"
 let GET_APP_INFO = "get_app_info"
+let OPEN_DEVICE_SETTINGS = "open_device_settings"
 
 //---------------------Keys--------------------------------//
 let APP_IDENTIFIER = "appIdentifier"
@@ -26,6 +27,7 @@ let DEVICE_BRAND = "deviceBrand"
 let DEVICE_ID = "deviceId"
 let OS_VERSION = "osVersion"
 let READ_LAUNCHED_DATA = "read_launched_data"
+let TYPE = "type"
 
 //---------------------Errors--------------------------------//
 

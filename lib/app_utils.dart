@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:app_utils/settings.dart';
 import 'package:flutter/services.dart';
 import 'models.dart';
 
@@ -13,6 +14,7 @@ class AppUtils {
   static const String GET_DEVICE_INFO = "get_device_info";
   static const String GET_APP_INFO = "get_app_info";
   static const String READ_LAUNCHED_DATA = "read_launched_data";
+  static const String OPEN_DEVICE_SETTINGS = "open_device_settings";
 
   ///method that launches open another application by using platform specific api's <br>
   ///[androidPackage] android appId, to get appId from playstore check playstore query param <b>?id=com.xyz</b> <br>
@@ -82,5 +84,11 @@ class AppUtils {
         <String, dynamic>{};
   }
 
+  /// Opens device settings.
+  /// It takes platform specific settings object <br>
+  /// [AndroidSettings] for android, [IOSSettings] for iOS
+  static Future<void> openDeviceSettings(AppSettings platformSettings) async {
+     await _channel.invokeMethod(OPEN_DEVICE_SETTINGS ,platformSettings.toJson());
+  }
 
 }

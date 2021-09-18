@@ -54,6 +54,10 @@ class AppUtilsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
          context.readLaunchedData(result,intent)
       }
 
+      Methods.OPEN_DEVICE_SETTINGS ->{
+         context.openDeviceSettings(call.arguments as Map<String,Any>,result)
+      }
+
       else -> result.notImplemented()
     }
   }

@@ -1,6 +1,6 @@
 # App Utils
   
-[![Pub Package](https://img.shields.io/badge/pub-v0.3-blue)](https://pub.dartlang.org/packages/app_utils)
+[![Pub Package](https://img.shields.io/badge/pub-v0.4-blue)](https://pub.dartlang.org/packages/app_utils)
 [![Pub Package](https://img.shields.io/badge/Licensce%20-MIT-green)](https://opensource.org/licenses/MIT)
 
 
@@ -51,10 +51,20 @@ In your deployment target is greater than or equal to 9 then also need to update
 <br>   
 6. <b>readLaunchedData (Android and iOS)</b> : <br>
     It allows us to read sender application data. In android, it reads data from activity intent but in iOS, it reads data from URL Scheme.
+   <br>
+   <br>
+7. <b>openDeviceSettings (Android and iOS)</b> : <br>
+   - It allows us to open settings page from your application.<br>
+   - In Android, it supports multiple settings option.<br>
+   - In iOS, due to apple restriction, it only supports the main settings page.For more info, please 
+     <a href="https://developer.apple.com/forums/thread/100471">visit here</a>.
+   
 
 ## Upcoming features
 
-1. <b>openDeviceSettings</b> : Open device settings application.
+1. <b>requestDeviceAuth</b> : Open the device unlock screen on Android and iOS.
+2. <b>playAudio</b>: Allows you to play audio on your device.
+3. <b>openDeviceSensor</b>:  Allows you to open device sensors.
 
 
 ## Bugs or Requests

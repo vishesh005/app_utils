@@ -81,5 +81,17 @@ extension SwiftAppUtilsPlugin {
         result(dictionary)
     }
     
+    
+    func openDeviceSettings(arguments: Any?,result: FlutterResult) {
+        let args = arguments as! Dictionary<String,Any>
+        let type = args[TYPE] as! String
+        let uri = getUriFromType(type: type)
+        UIApplication.shared.openURL(uri)
+    }
+    
+    private func getUriFromType(type : String) -> URL{
+//        let settings = type.replacingOccurrences(of: "IOSSettings.", with: "", options: .literal, range: nil)
+        return URL(string: UIApplication.openSettingsURLString)!
+    }
 }
 

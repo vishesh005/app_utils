@@ -55,6 +55,10 @@ public class SwiftAppUtilsPlugin: NSObject, FlutterPlugin, FlutterApplicationLif
         case READ_LAUNCHED_DATA:
             readlaunchedData(result: result,params: params)
             break
+        case OPEN_DEVICE_SETTINGS:
+            openDeviceSettings(arguments: call.arguments,
+                               result: result)
+            break
         default:
             result(FlutterMethodNotImplemented)
         }

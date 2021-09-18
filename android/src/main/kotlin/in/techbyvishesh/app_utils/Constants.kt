@@ -6,6 +6,7 @@ object Methods {
     const val GET_DEVICE_INFO = "get_device_info"
     const val GET_APP_INFO = "get_app_info"
     const val READ_LAUNCHED_DATA = "read_launched_data"
+    const val OPEN_DEVICE_SETTINGS = "open_device_settings"
 }
 
 
@@ -22,6 +23,7 @@ object Keys {
     const val DEVICE_BRAND = "deviceBrand"
     const val DEVICE_ID = "deviceId"
     const val OS_VERSION = "osVersion"
+    const val TYPE = "type"
 }
 
 object Errors {

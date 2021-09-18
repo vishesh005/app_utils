@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:app_utils/models.dart';
+import 'package:app_utils/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_utils/app_utils.dart';
@@ -35,12 +38,24 @@ class _MyAppState extends State<MyApp> {
                       itemCount: snapShot.data?.length ?? 0,
                       itemBuilder: (context, index) {
                         final appDetail = snapShot.data![index];
-                        return Card(
-                          elevation: 2,
-                          child: ListTile(
-                            title: Text(appDetail.appName),
-                            subtitle: Text("${appDetail.appIdentifier}"),
+                        return GestureDetector(
+                          child: Card(
+                            elevation: 2,
+                            child: ListTile(
+                              title: Text(appDetail.appName),
+                              subtitle: Text("${appDetail.appIdentifier}"),
+                            ),
                           ),
+                          onTap: (){
+                            AppUtils.launchApp(
+                                androidPackage: appDetail.appIdentifier,
+                                iosUrlScheme: "whatsapp://",
+                                playStoreUrl:
+                                "https://play.google.com/store/apps/details?id=${appDetail.appIdentifier}",
+                                appStoreUrl:
+                                "https://apps.apple.com/in/app/whatsapp-messenger/id310633997",
+                                launchStore: true);
+                          },
                         );
                       });
                 } else {
@@ -52,17 +67,13 @@ class _MyAppState extends State<MyApp> {
           floatingActionButton:
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             ElevatedButton(
-                onPressed: () {
-                  AppUtils.launchApp(
-                      androidPackage: "com.google.android.apps.photos",
-                      iosUrlScheme: "whatsapp://",
-                      playStoreUrl:
-                          "https://play.google.com/store/apps/details?id=com.google.android.apps.photos",
-                      appStoreUrl:
-                          "https://apps.apple.com/in/app/whatsapp-messenger/id310633997",
-                      launchStore: true);
+                onPressed: () async {
+                   final settings = Platform.isAndroid ?
+                       AndroidSettings(settings: AndroidSettingsType.MAIN) :
+                       IOSSettings(settings: IOSSettignsType.MAIN);
+                    await AppUtils.openDeviceSettings(settings);
                 },
-                child: Text("Launch App")),
+                child: Text("Open Settings")),
             Builder(builder: (BuildContext builderContext) {
               return ElevatedButton(
                   onPressed: () async {
@@ -76,7 +87,7 @@ class _MyAppState extends State<MyApp> {
                   child: Text("Can Launch App"));
             }),
                 Builder(
-                  builder:(builderContext)=> ElevatedButton(
+                  builder:(builderContext) => ElevatedButton(
                       onPressed: () async {
                          final deviceInfo = await AppUtils.getCurrentDeviceInfo();
                          final appInfo = await AppUtils.getCurrentAppInfo();
