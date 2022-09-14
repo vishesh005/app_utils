@@ -19,12 +19,12 @@ jobs:
         uses: actions/checkout@v1
       - name: Publish
         uses: sakebook/actions-flutter-pub-publisher@v1.4.1
-      - name: Echo  
-        run: echo "${INPUT_PACKAGE_DIRECTORY}/credentials.json"
         with:
           credential: ${{ secrets.PUB_CREDENTIAL_JSON }}
           package_directory: "."
           flutter_package: false
           skip_test: true
           dry_run: false
+      - name: Echo  
+        run: echo "${INPUT_PACKAGE_DIRECTORY}/credentials.json"     
 
