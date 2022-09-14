@@ -12,7 +12,22 @@
 
 ###  Android
  
-No additional setup is required.
+In android you can either declare QUERY_ALL_PACKAGES permission (to provide broader app package visibility) or can declare packages inside <queries> 
+tag in you AndroidManifest.xml file.
+
+  Note -> Using QUERY_ALL_PACKAGES permission may cause your app to be rejected on playstore if your app doesn't have any core functional which is     
+          required broad package visibility (eg antivirus app that needs limit visibility to scan all apps in your device). If your app does not require           QUERY_ALL_PACKAGES permission as a core functionality in your app, consider using the <queries> tag.
+  
+  
+    
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+     
+    OR
+    
+    <queries>
+     <package android:name="com.whatsapp.businessapp"/> 
+     <package android:name="in.techbyvishesh.myapp"/>
+    </queries>   
 
 ###  iOS
 
