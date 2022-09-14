@@ -22,3 +22,6 @@
 
 * Added support to open the device settings page.
 
+## 0.0.5
+
+* Updated documentation for android QUERY_ALL_PACKAGES permission.
