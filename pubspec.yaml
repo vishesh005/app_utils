@@ -2,7 +2,7 @@ name: app_utils
 description: Application  plugin which provides utility functions for Android and iOS.
 repository: https://github.com/vishesh005/app_utils
 issue_tracker: https://github.com/vishesh005/app_utils/issues?q=is%3Aissue+is%3Aopen
-version: 0.0.3
+version: 0.0.4
 homepage:
 
 environment:
