@@ -24,7 +24,5 @@ jobs:
           package_directory: "."
           flutter_package: false
           skip_test: true
-          dry_run: false
-      - name: Echo  
-        run: echo "${INPUT_PACKAGE_DIRECTORY}/credentials.json"     
+          dry_run: false     
 
