@@ -5,16 +5,14 @@ class BundleInfo {
   final String version;
   final String buildNo;
 
-
   BundleInfo(this.appName, this.appIdentifier, this.version, this.buildNo);
 
   static BundleInfo fromJson(dynamic json) {
     return BundleInfo(
-        json["appName"],
-        json["appIdentifier"],
-        json["version"],
-        json["buildNo"].toString()
-    );
+        json["appName"] ?? 'null',
+        json["appIdentifier"] ?? 'null',
+        json["version"] ?? 'null',
+        (json["buildNo"] ?? 'null').toString());
   }
 }
 
@@ -35,5 +33,3 @@ class DeviceInfo{
      );
   }
 }
-
-
