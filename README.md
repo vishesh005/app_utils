@@ -1,33 +1,34 @@
 # App Utils
   
-[![Pub Package](https://img.shields.io/badge/pub-v0.4-blue)](https://pub.dartlang.org/packages/app_utils)
+[![Pub Package](https://img.shields.io/badge/pub-v0.6-blue)](https://pub.dartlang.org/packages/app_utils)
 [![Pub Package](https://img.shields.io/badge/Licensce%20-MIT-green)](https://opensource.org/licenses/MIT)
 
 
 
-  Application  plugin which provides utility functions for
-  Android and iOS.
+An application plugin that offers utility functions designed for use on both the Android and iOS platforms.
  
 ## Installation
 
-###  Android
- 
-In android you can either declare QUERY_ALL_PACKAGES permission (to provide broader app package visibility) or can declare packages inside <queries> 
-tag in you AndroidManifest.xml file.
+###   Android
 
-  Note -> Using QUERY_ALL_PACKAGES permission may cause your app to be rejected on playstore if your app doesn't have any core functional which is     
-          required broad package visibility (eg antivirus app that needs limit visibility to scan all apps in your device). If your app does not require           QUERY_ALL_PACKAGES permission as a core functionality in your app, consider using the <queries> tag.
+In the Android context, you have the option to either declare the QUERY_ALL_PACKAGES permission (providing a wider scope of visibility for app packages) or specify packages within the <queries> tag in your AndroidManifest.xml file.
+
+  Note: Using QUERY_ALL_PACKAGES permission could result in the potential rejection of your app on the Play Store if your app lacks essential core functionalities that necessitate a broader package visibility.
+        For instance, applications like antivirus software that require restricted visibility to scan all apps on the device. If your app does not inherently demand QUERY_ALL_PACKAGES permission as a core functionality,
+        it is recommended to explore the option of using the <queries> tag instead.
   
-  
-    
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
-     
-    OR
-    
-    <queries>
+
+     <!-- Only for core functionality apps like antivirus, device security, etc. -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/> 
+
+      OR 
+
+    <!-- For all common use cases -->
+    <queries> 
      <package android:name="com.whatsapp.businessapp"/> 
-     <package android:name="in.techbyvishesh.myapp"/>
-    </queries>   
+     <package android:name="in.techbyvishesh.myapp"/> 
+     </queries>
+
 
 ###  iOS
 
@@ -47,45 +48,46 @@ In your deployment target is greater than or equal to 9 then also need to update
 
 
 ## List of supported functions
-1. <b>launchApp (Android and iOS)</b> : <br>   It opens target application from provided package name in Android and URLScheme in iOS.
-<br>
-<br>   
-2. <b>getInstalledApps (Android)</b> : <br>
-    It returns a list of the installed applications from your devices.
-<br>
-<br>
-3. <b>canLaunchApp (Android & iOS)</b> : <br> It checks application is launchable or not.
-   <br>
-   <br>
-4. <b>getCurrentDeviceInfo (Android and iOS)</b> : <br> It returns current device information.
-   <br>
-   <br>
-5. <b>getCurrentAppInfo (Android and iOS)</b> : <br> 
-    It returns your application information.
-<br>
-<br>   
-6. <b>readLaunchedData (Android and iOS)</b> : <br>
-    It allows us to read sender application data. In android, it reads data from activity intent but in iOS, it reads data from URL Scheme.
-   <br>
-   <br>
-7. <b>openDeviceSettings (Android and iOS)</b> : <br>
-   - It allows us to open settings page from your application.<br>
-   - In Android, it supports multiple settings option.<br>
-   - In iOS, due to apple restriction, it only supports the main settings page.For more info, please 
-     <a href="https://developer.apple.com/forums/thread/100471">visit here</a>.
-   
+
+| Function                               | Description                                                                                                                                                                                                                                                                                                                          |
+|----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| launchApp (Android and iOS)            | Initiates the launch of the specified application using the provided package name on Android and the URLScheme on iOS.                                                                                                                                                                                                               |
+| getInstalledApps (Android)             | Returns a list of the installed applications on your Android device.                                                                                                                                                                                                                                                                 |
+| canLaunchApp (Android & iOS)           | Verifies the application's launch feasibility.                                                                                                                                                                                                                                                                                       |
+| getCurrentDeviceInfo (Android and iOS) | Returns current device information.                                                                                                                                                                                                                                                                                                  |
+| getCurrentAppInfo (Android and iOS)    | Returns information about your application.                                                                                                                                                                                                                                                                                          |
+| readLaunchedData (Android and iOS)     | Allows reading sender application data. On Android, it gathers data from the activity intent, whereas on iOS, it acquires data from the URL Scheme.                                                                                                                                                                                  |
+| openDeviceSettings (Android and iOS)   | Initiates access to the settings page within your application.<br> - For Android, it offers diverse settings choices.<br> - However, in iOS, owing to Apple's limitations, it exclusively provides access to the primary settings page. For more information, please [visit here](https://developer.apple.com/forums/thread/100471). |
+
+
 
 ## Upcoming features
 
-1. <b>requestDeviceAuth</b> : Open the device unlock screen on Android and iOS.
-2. <b>playAudio</b>: Allows you to play audio on your device.
-3. <b>openDeviceSensor</b>:  Allows you to open device sensors.
+## Features
+
+1. **requestDeviceAuth** 🌟
+        - Unleash your device's potential with a touch! Open the device unlock screen on both Android and iOS platforms.
+
+2. **playAudio** 🎶
+        - Immerse yourself in a world of sound. Seamlessly play audio on your device with just a tap.
+
+3. **openDeviceSensor** 🌈
+        - Get closer to the magic of your device. Experience the power of open device sensors like never before.
+
+Explore these exciting functionalities and bring a new dimension to your app's capabilities!
+
+## Contributors
+
+A big shoutout to the following amazing contributors who have helped shape and improve this project:
+
+- [Vishesh Pandey](https://github.com/vishesh005)
+- [Ashwin Ramakrishnan](https://github.com/ashwinkey04)
+
+Join our ranks by contributing to this project! Every line of code makes a difference. 🙌
 
 
 ## Bugs or Requests
-If you encounter any problems feel free to open an issue. 
-If you feel the library is missing a feature, please raise a ticket on <a href ="https://github.com/vishesh005/app_utils/issues">
-GitHub</a> and I'll look into it. Pull request are also welcome.
+If the code genie escapes its lamp and causes trouble, just give a shout by opening an issue. Got a brainwave for a cool feature? Toss the idea into a GitHub ticket, and I'll whip out my magnifying glass 🔍. And hey, pull requests? They're like virtual high-fives! 🙌
 
 
 

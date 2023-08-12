@@ -8,9 +8,7 @@
 
 ## 0.0.3
 
-* Added support to get device details, app details 
-  and to read launch data to read data from
-  intent(android) & urlScheme (iOS).
+* Added support to retrieve device details, app-specific information, and extract launch data from intent (Android) & urlScheme (iOS)."
 
 * Added params support for launchApp function.
 
@@ -25,3 +23,10 @@
 ## 0.0.5
 
 * Updated documentation for android QUERY_ALL_PACKAGES permission.
+
+## 0.0.6
+
+* Fixed app crash issue that arose when attempting to retrieve a null value from the API at the device level.
+* Thanks to the developer @ashwinkey04.
+
+
