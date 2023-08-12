@@ -27,6 +27,6 @@
 ## 0.0.6
 
 * Fixed app crash issue that arose when attempting to retrieve a null value from the API at the device level.
-* Thanks to the developer @ashwinkey04.
+  Thanks to the developer @ashwinkey04.
 
 

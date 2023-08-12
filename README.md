@@ -14,8 +14,8 @@ An application plugin that offers utility functions designed for use on both the
 In the Android context, you have the option to either declare the QUERY_ALL_PACKAGES permission (providing a wider scope of visibility for app packages) or specify packages within the <queries> tag in your AndroidManifest.xml file.
 
   Note: Using QUERY_ALL_PACKAGES permission could result in the potential rejection of your app on the Play Store if your app lacks essential core functionalities that necessitate a broader package visibility.
-        For instance, applications like antivirus software that require restricted visibility to scan all apps on the device. If your app does not inherently demand QUERY_ALL_PACKAGES permission as a core functionality,
-        it is recommended to explore the option of using the <queries> tag instead.
+        For instance, applications like antivirus software that require broader visibility to scan all apps on the device. If your app does not inherently demand QUERY_ALL_PACKAGES permission as a core functionality,
+        it is recommended to explore the option of using the **queries** tag instead.
   
 
      <!-- Only for core functionality apps like antivirus, device security, etc. -->
