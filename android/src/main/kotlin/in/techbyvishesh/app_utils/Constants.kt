@@ -7,6 +7,10 @@ object Methods {
     const val GET_APP_INFO = "get_app_info"
     const val READ_LAUNCHED_DATA = "read_launched_data"
     const val OPEN_DEVICE_SETTINGS = "open_device_settings"
+    const val REQUEST_DEVICE_AUTH = "request_device_auth";
+    const val PLAY_AUDIO = "play_audio";
+    const val GET_AVAILABLE_SENSORS = "get_available_sensors";
+    const val OPEN_DEVICE_SENSOR = "open_device_sensor";
 }
 
 

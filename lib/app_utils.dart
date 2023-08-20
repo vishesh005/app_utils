@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:app_utils/auth_settings.dart';
 import 'package:app_utils/settings.dart';
 import 'package:flutter/services.dart';
 import 'models.dart';
@@ -15,6 +16,10 @@ class AppUtils {
   static const String GET_APP_INFO = "get_app_info";
   static const String READ_LAUNCHED_DATA = "read_launched_data";
   static const String OPEN_DEVICE_SETTINGS = "open_device_settings";
+  static const String REQUEST_DEVICE_AUTH = "request_device_auth";
+  static const String PLAY_AUDIO = "play_audio";
+  static const String GET_AVAILABLE_SENSORS = "get_available_sensors";
+  static const String OPEN_DEVICE_SENSOR = "open_device_sensor";
 
   ///method that launches open another application by using platform specific api's <br>
   ///[androidPackage] android appId, to get appId from playstore check playstore query param <b>?id=com.xyz</b> <br>
@@ -28,8 +33,7 @@ class AppUtils {
       bool? launchStore = false,
       String playStoreUrl = "",
       String appStoreUrl = "",
-      Map<String,dynamic> params = const {}
-      }) async {
+      Map<String, dynamic> params = const {}}) async {
     String identifier = Platform.isAndroid ? androidPackage : iosUrlScheme;
     String storeUrl = Platform.isAndroid ? playStoreUrl : appStoreUrl;
     await _channel.invokeMethod(LAUNCH_APP, {
@@ -62,21 +66,20 @@ class AppUtils {
         .invokeMethod(CAN_LAUNCH_APP, {"appIdentifier": appIdentifier});
   }
 
-
   /// returns current device details [DeviceInfo]
   static Future<DeviceInfo> getCurrentDeviceInfo() async {
-    final deviceInfoJson =  await _channel.invokeMethod(GET_DEVICE_INFO);
+    final deviceInfoJson = await _channel.invokeMethod(GET_DEVICE_INFO);
     return DeviceInfo.fromJson(deviceInfoJson);
   }
 
   /// returns current app details [BundleInfo]
   static Future<BundleInfo> getCurrentAppInfo() async {
-     final bundleJson = await _channel.invokeMethod(GET_APP_INFO);
-     return BundleInfo.fromJson(bundleJson);
+    final bundleJson = await _channel.invokeMethod(GET_APP_INFO);
+    return BundleInfo.fromJson(bundleJson);
   }
 
   /// read sender application data
-  static Future<Map<String,dynamic>> readLaunchedData() async {
+  static Future<Map<String, dynamic>> readLaunchedData() async {
     return (await _channel
                 .invokeMethod<Map<dynamic, dynamic>>(READ_LAUNCHED_DATA))
             ?.map<String, dynamic>(
@@ -88,7 +91,31 @@ class AppUtils {
   /// It takes platform specific settings object <br>
   /// [AndroidSettings] for android, [IOSSettings] for iOS
   static Future<void> openDeviceSettings(AppSettings platformSettings) async {
-     await _channel.invokeMethod(OPEN_DEVICE_SETTINGS ,platformSettings.toJson());
+    await _channel.invokeMethod(
+        OPEN_DEVICE_SETTINGS, platformSettings.toJson());
   }
 
+  /// Function that trigger device auth page to authenticate pin, fingerprint & patten.
+  static Future<void> requestDeviceAuth(AuthSettings authSettings) async {
+    await _channel.invokeMethod(REQUEST_DEVICE_AUTH, authSettings.toJson());
+  }
+
+  /// Play audio from the provider uri.
+  /// Currently works with only two types of uri
+  /// 1. Device level uri
+  /// 2. Any http/https url.
+  /// Currently this library doesn't support audio pause or stop function
+  static Future<void> playAudio(String uri) async {
+    await _channel.invokeMethod(PLAY_AUDIO, {"audioUri": uri});
+  }
+
+  /// Fetch all device sensors list from the platform API.
+  static Future<void> getAvailableSensors() async {
+    await _channel.invokeMethod(GET_AVAILABLE_SENSORS);
+  }
+
+  /// Open any device level sensor
+  static Future<void> openDeviceSensor(String sensorType) async {
+    await _channel.invokeMethod(OPEN_DEVICE_SENSOR, {"sensorType": sensorType});
+  }
 }

@@ -3,6 +3,7 @@ package `in`.techbyvishesh.app_utils
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import android.widget.Toast
 import androidx.annotation.NonNull
 
@@ -20,6 +21,7 @@ class AppUtilsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var channel : MethodChannel
   private lateinit var context: Context
   private lateinit var intent: Intent
+  private var mediaPlayer: MediaPlayer?
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "app_utils")
@@ -58,6 +60,15 @@ class AppUtilsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
          context.openDeviceSettings(call.arguments as Map<String,Any>,result)
       }
 
+      Methods.PLAY_AUDIO -> {
+         if(mediaPlayer === null){
+            mediaPlayer = MediaPlayer();
+         }
+         mediaPlayer?.reset()
+         mediaPlayer?.setDataSource("")
+
+      }
+
       else -> result.notImplemented()
     }
   }
@@ -74,5 +85,7 @@ class AppUtilsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) = Unit
 
-  override fun onDetachedFromActivity() = Unit
+  override fun onDetachedFromActivity() {
+      mediaPlayer?.release(); // Releasing the MediaPlayer resources
+  }
 }
